@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.bit.dao.ChatDao">
+	
+	<!-- public List<user> chatUserList(); -->
+	<select id="chatUserList" resultType="userDto" parameterType="hashMap">
+		SELECT U.email, U.nickName, U.profile, U.enabled, P.PROJECT_SEQ 
+		FROM user U JOIN project_member P
+		ON U.email = P.EMAIL
+		WHERE U.email NOT IN (#{sessionEmail})
+		AND P.PROJECT_SEQ = #{projectNum}
+		ORDER BY U.nickName, U.email
+	</select>
+	
+	<!-- public List<user> chatUserListByEmail(String[] user_array); -->
+	<select id="chatUserListByEmail" parameterType="java.util.ArrayList" resultType="userDto">
+		SELECT email, nickName, profile FROM user
+		WHERE email IN (
+			<foreach collection="array" item="item" index="index" separator=",">
+				#{item}
+			</foreach>
+		)
+	</select>
+	
+	<select id="chatUserEmailListByEmailByOrder" parameterType="java.util.ArrayList" resultType="String">
+		SELECT email FROM user
+		WHERE email IN (
+			<foreach collection="array" item="item" index="index" separator=",">
+				#{item}
+			</foreach>
+		)
+		ORDER BY email
+	</select>
+	
+	<!-- public void insertChattingRoom(String chatting_room_name); -->
+	<insert id="insertChattingRoom">
+		INSERT INTO chattingroom(CHATTING_ROOM_NAME,PROJECT_SEQ)
+		VALUES(#{param1},#{param2})
+	</insert>
+	
+	<!-- public void insertChattingRoomList(HashMap<String, Object> map); -->
+	<insert id="insertChattingRoomList" parameterType="hashMap">
+		INSERT INTO chattingroomlist(CHATTING_ROOM_SEQ, EMAIL, CHATTING_ROOM_NAME)
+		VALUES
+			<foreach collection="user_array" item="item" index="index" separator=",">
+				(#{room_number},#{item},#{chatting_room_name})
+			</foreach>
+	</insert>
+	 
+	<!-- public List<room> getRoomList(Map<String, Object> getRoomListMap); -->
+	<select id="getRoomList" resultType="roomDto" parameterType="hashMap">
+		SELECT C.CHATTING_ROOM_SEQ, L.CHATTING_ROOM_NAME, L.CHATTING_ALARM
+		FROM chattingroom C JOIN chattingroomlist L
+		ON C.CHATTING_ROOM_SEQ = L.CHATTING_ROOM_SEQ
+		WHERE PROJECT_SEQ = #{projectNum}
+			AND L.EMAIL = #{loginuser}
+			AND L.ENABLED NOT IN(0)
+	</select>
+	
+	<select id="getRoomList2" resultType="roomDto" parameterType="hashMap">
+		SELECT CHATTING_ROOM_SEQ, CHATTING_ROOM_NAME, PROJECT_SEQ 
+		FROM chattingroom
+		WHERE PROJECT_SEQ = #{projectNum}
+	</select>
+	
+	<!-- public List<roomlist> getProfiles(); -->
+	<select id="getProfiles" resultType="roomlistDto">
+		SELECT U.email, U.profile, L.CHATTING_ROOM_SEQ
+		FROM user U JOIN chattingroomlist L
+		ON U.email = L.EMAIL
+		ORDER BY L.CHATTING_ROOM_SEQ
+	</select>
+	
+	<!-- public List<user> selectedUser(Map<String, Object> selectUserMap); -->
+	<select id="selectedUser" resultType="userDto" parameterType="hashMap">
+		SELECT U.email, U.nickName, U.profile 
+		FROM user U JOIN project_member P
+		ON U.email = P.EMAIL
+		WHERE U.email NOT IN (
+			<foreach collection="select_user_array" item="item" index="index" separator=",">
+				#{item}
+			</foreach>
+		,#{loginuser})	
+		AND P.PROJECT_SEQ = #{projectNum}
+		ORDER BY U.nickName, U.email
+	</select>
+	
+	<!-- public List<user> searchUser(String searchKeyword); -->
+	<select id="searchUser" resultType="userDto">
+		SELECT U.email, U.nickName, U.profile, U.enabled, P.PROJECT_SEQ
+		FROM user U JOIN project_member P
+		ON U.email = P.EMAIL
+		WHERE nickName LIKE CONCAT('%',#{nickName},'%')
+			AND P.PROJECT_SEQ = #{projectNum}
+			AND U.emaik NOT IN (#{sessionEmail})
+		ORDER BY U.nickName, U.email
+	</select>
+	
+	<select id="searchAnotherUser" parameterType="hashMap" resultType="userDto">
+		SELECT U.email, U.nickName, U.profile, U.enabled, P.PROJECT_SEQ 
+		FROM user U JOIN project_member P
+		ON U.email = P.EMAIL
+		WHERE U.email NOT IN (
+			<foreach collection="user_array" item="item" index="index" separator=",">
+				#{item}
+			</foreach>
+		) 
+		AND U.nickName LIKE CONCAT('%',#{nickName},'%')
+		AND P.PROJECT_SEQ = #{projectNum}
+		AND U.email NOT IN (#{sessionEmail})
+		ORDER BY U.nickName, U.email
+	</select>
+	
+	<select id="selectedUserClose" parameterType="java.util.ArrayList" resultType="userDto">
+		SELECT U.email, U.nickName, U.profile, P.PROJECT_SEQ 
+		FROM user U JOIN project_member P
+		ON U.email = P.EMAIL
+		WHERE U.email IN (
+			<foreach collection="user_array" item="item" index="index" separator=",">
+				#{item}
+			</foreach>
+		)
+		AND P.PROJECT_SEQ = #{projectNum}
+		AND U.email NOT IN (#{sessionEmail})
+		ORDER BY U.nickName, U.email
+	</select>
+	
+	<!-- public void hideRoom(Map<String, Object> hideRoomMap); -->
+	<update id="hideRoom" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET ENABLED = 0
+		WHERE CHATTING_ROOM_SEQ = #{chatting_room_seq}
+			AND EMAIL = #{loginuser}
+	</update>
+	
+	<!-- public void hideRoom(Map<String, Object> hideRoomMap); -->
+	<update id="unhideRoom" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET ENABLED = 1
+		WHERE CHATTING_ROOM_SEQ = #{chatting_room_seq}
+			AND EMAIL = #{loginuser}
+	</update>
+	
+	<!-- chatsocketHandler -->
+	<!-- public void unhideAllRoom(int select); -->
+	<update id="unhideAllRoom" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET ENABLED = 1
+		WHERE CHATTING_ROOM_SEQ = #{chatting_room_seq}
+	</update>
+	
+	<!-- chatsocketHandler -->
+	<!-- public void pushAlarm(Map<String, Object> pushAlarmMap); -->
+	<update id="pushAlarm" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET CHATTING_ALARM = CHATTING_ALARM + 1
+		WHERE CHATTING_ROOM_SEQ = #{select}
+			AND EMAIL NOT IN (#{loginuser})
+	</update>
+	
+	<!-- chatsocketHandler -->
+	<!-- public void roomClosed(Map<String, Object> roomCloseMap); -->
+	<update id="roomClosed" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET CLICKED = 0
+		WHERE CHATTING_ROOM_SEQ = #{select}
+			AND EMAIL = #{loginuser}
+	</update>	
+	
+	<!-- chatsocketHandler -->
+	<!-- public void resetAlarm(Map<String, Object> resetAlarmMap); -->
+	<update id="resetAlarm" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET RESET = 1
+		WHERE CHATTING_ROOM_SEQ = #{select}
+			AND EMAIL IN #{loginuser}
+	</update>	
+	
+	<!-- chatsocketHandler -->
+	<!-- public int alarmIsNotNull(Map<String, Object> pushAlarmMap); -->
+	<select id="alarmIsNotNull" resultType="int" parameterType="hashMap">
+		SELECT CHATTING_ALARM FROM chattingroomlist
+		WHERE CHATTING_ROOM_SEQ = #{select}
+			AND EMAIL IN (#{loginuser})
+	</select>
+	
+	<!-- chatsocketHandler -->
+	<!-- public int pushAlarmNotMe(Map<String, Object> pushAlarmMap); -->
+	<update id="pushAlarmNotMe" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET CHATTING_ALARM = 0
+		WHERE CHATTING_ROOM_SEQ = #{select}
+			AND EMAIL IN (#{loginuser})
+	</update>
+	
+	<!-- public void checkalarm(Map<String, Object> checkAlarmMap); -->
+	<update id="checkalarm" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET CHATTING_ALARM = 0
+		WHERE CHATTING_ROOM_SEQ = #{select}
+			AND EMAIL = #{loginuser}
+	</update>
+	
+	<!-- public void roomClicked(Map<String, Object> checkAlarmMap); -->
+	<update id="roomClicked" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET CLICKED = 1
+		WHERE CHATTING_ROOM_SEQ = #{select}
+			AND EMAIL = #{loginuser}
+	</update>
+	
+	<!-- public void updateRoom(int chatting_room_seq, String chatting_room_name); -->
+	<update id="updateRoom" parameterType="hashMap">
+		UPDATE chattingroomlist
+		SET CHATTING_ROOM_NAME = #{chatting_room_name}
+		WHERE CHATTING_ROOM_SEQ = #{chatting_room_seq}
+			AND EMAIL = #{loginuser}
+	</update>
+
+	<!-- public List<room> searchRoom(String searchKeyword); -->
+	<select id="searchRoom" resultType="roomDto" parameterType="hashMap">
+		SELECT C.CHATTING_ROOM_SEQ, L.CHATTING_ROOM_NAME, C.PROJECT_SEQ, L.CHATTING_ALARM
+		FROM chattingroom C JOIN chattingroomlist L
+		ON C.CHATTING_ROOM_SEQ = L.CHATTING_ROOM_SEQ
+		WHERE L.CHATTING_ROOM_NAME LIKE CONCAT('%',#{searchKeyword},'%')
+		AND C.PROJECT_SEQ = #{projectNum}
+		AND L.EMAIL IN(#{loginuser})
+		AND L.ENABLED = 1
+	</select>
+	
+	<!-- public List<room> getRoomListByProjectSeq(int projectNum); -->
+	<select id="getRoomListByProjectSeq" resultType="roomDto" parameterType="int">
+		SELECT CHATTING_ROOM_SEQ, CHATTING_ROOM_NAME, PROJECT_SEQ 
+		FROM chattingroom
+		WHERE PROJECT_SEQ = #{projectNum}
+	</select>
+	
+	<!-- public List<String> getChattingRoomList(Map<String, Object> chattingRoomListMap); -->
+	<select id="getChattingRoomList" resultType="String" parameterType="hashMap">
+		SELECT L.EMAIL
+		FROM chattingroomlist L JOIN chattingroom C
+		ON L.CHATTING_ROOM_SEQ = C.CHATTING_ROOM_SEQ
+		WHERE C.PROJECT_SEQ = #{projectNum}
+			AND C.CHATTING_ROOM_SEQ = #{room_num}
+		ORDER BY L.EMAIL
+	</select>
+	
+	<!-- public List<roomlist> getChattingRoomList2(Map<String, Object> chattingRoomListMap); -->
+	<select id="getChattingRoomList2" resultType="roomlistDto" parameterType="hashMap">
+		SELECT L.EMAIL, L.CHATTING_ALARM
+		FROM chattingroomlist L JOIN chattingroom C
+		ON L.CHATTING_ROOM_SEQ = C.CHATTING_ROOM_SEQ
+		WHERE C.PROJECT_SEQ = #{projectNum}
+			AND C.CHATTING_ROOM_SEQ = #{room_num}
+		ORDER BY L.EMAIL
+	</select>
+	
+	<!-- public List<roomlist> getChattingRoomUserListByRoomSeq(int chatting_room_seq); -->
+	<select id="getChattingRoomUserListByRoomSeq" resultType="roomlistDto">
+		SELECT U.email, U.nickName, L.CHATTING_ROOM_SEQ, U.profile
+		FROM chattingroomlist L JOIN user U
+		ON U.email = L.EMAIL
+		WHERE L.CHATTING_ROOM_SEQ = #{chatting_room_seq}
+	</select>
+	
+	<select id="getChatSeqByProjectSeq" resultType="int" parameterType="int" >
+		SELECT CHATTING_ROOM_SEQ FROM chattingroom WHERE PROJECT_SEQ = #{param1}
+	</select>
+	
+	<delete id="deleteRoomList" parameterType="int" >
+		DELETE FROM chattingroomlist WHERE CHATTING_ROOM_SEQ = #{param1}
+	</delete>
+	
+	<delete id="deleteChatRoom" parameterType="int" >
+		DELETE FROM chattingroom WHERE PROJECT_SEQ = #{param1}
+	</delete>
+	
+	<select id="checkalarmSidebar" resultType="int" parameterType="hashMap">
+		SELECT L.CHATTING_ALARM
+		FROM chattingroomlist L JOIN chattingroom C
+		ON L.CHATTING_ROOM_SEQ = C.CHATTING_ROOM_SEQ
+		WHERE L.EMAIL = #{loginuser}
+		AND C.PROJECT_SEQ = #{projectNum}
+	</select>
+	
+	<select id="checkalarmSidebarChecked" resultType="int" parameterType="hashMap">
+		SELECT CHATTING_ALARM
+		FROM chattingroomlist
+		WHERE EMAIL = #{loginuser}
+		AND CHATTING_ROOM_SEQ = #{select}
+	</select>
+	
+</mapper>

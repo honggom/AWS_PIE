@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.bit.dao.AlramDao">
+
+	<insert id="insertAlram" parameterType="alramDto">
+		INSERT INTO alarm
+		(nickName,title,state,alramTime,PROJECT_SEQ,alramseq,memberemail)
+		VALUES
+		<foreach collection="memberEmail" item="item" index="index"
+			separator=",">
+			(#{nickName},#{title},#{state},#{alramTime},#{project_seq},#{alramseq},'${item}')
+		</foreach>
+	</insert>
+
+	<select id="getAlramList" resultType="alramDto">
+		SELECT * FROM alarm WHERE
+		memberemail= #{param1} AND project_seq=#{param2}
+	</select>
+
+	<select id="getAlramLastSeq" resultType="int">
+		SELECT
+		ifnull(max(alramseq),0) FROM alarm;
+	</select>
+
+	<delete id="deleteAlram">
+		DELETE FROM alarm
+		WHERE alramseq = #{param1} and
+		memberemail =#{param2}
+	</delete>
+
+	<select id="projectMemberList" resultType="String"
+		parameterType="int">
+		SELECT EMAIL FROM project_member WHERE PROJECT_SEQ =
+		#{param1};
+	</select>
+
+	<delete id="deleteAlarmByProjectSeq" parameterType="int">
+		DELETE FROM
+		alarm WHERE PROJECT_SEQ = #{param1}
+	</delete>
+	
+</mapper>

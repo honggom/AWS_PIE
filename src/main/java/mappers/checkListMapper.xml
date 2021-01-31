@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+파일명: checkListMapper.xml
+설명: checkListMapper.xml
+작성일: 2021-01-05 ~ 2021-01-07
+작성자: 문지연
+ -->
+<mapper namespace="kr.or.bit.dao.CheckListDao">
+
+	<insert id="insertCheckList" parameterType="HashMap">
+		INSERT INTO checklist(CHECK_SEQ, CHECK_NAME, ISCHECKED, CARD_SEQ) 
+		VALUES(nextval('check_seq'), #{checkList.check_name}, 0, #{checkList.card_seq})
+	</insert>
+	
+	<select id="getLastCheckSeq" resultType="int" parameterType="int">
+		SELECT MAX(CURRVAL) FROM sequences WHERE NAME='check_seq'
+	</select>
+	
+	<select id="loadCheckList" resultType="checkListDto" parameterType="int">
+		SELECT CHECK_SEQ, CHECK_NAME, ISCHECKED FROM checklist WHERE CARD_SEQ = #{param1} ORDER BY CHECK_SEQ DESC
+	</select>
+	
+	<delete id="deleteChkList" parameterType="int">
+		DELETE FROM checklist WHERE CHECK_SEQ = #{param1}
+	</delete>
+	
+	<delete id="deleteChkListByCardSeq" parameterType="int">
+		DELETE FROM checklist WHERE CARD_SEQ = #{param1}
+	</delete>
+	
+	<update id="editCheckedStatus" parameterType="checkListDto">
+		UPDATE checklist SET ISCHECKED = #{ischecked} WHERE CHECK_SEQ=#{check_seq}
+	</update>
+	
+	<select id="getlCheckListCount" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM checklist WHERE CARD_SEQ = ANY (SELECT CARD_SEQ FROM kanbancard WHERE PROJECT_SEQ = #{param1})
+	</select>
+	
+	<select id="getCheckListCheckedCount" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM checklist WHERE ISCHECKED = 1 AND CARD_SEQ = ANY (SELECT CARD_SEQ FROM kanbancard WHERE PROJECT_SEQ = #{param1})
+	</select>
+	
+	<select id="getCheckListUnCheckedCount" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM checklist WHERE ISCHECKED = 0 AND CARD_SEQ = ANY (SELECT CARD_SEQ FROM kanbancard WHERE PROJECT_SEQ = #{param1})
+	</select>
+	
+	<select id="getCheckListByCard" resultType="checkListDto"
+		parameterType="hashMap">
+		SELECT COUNT(*) AS 'TOTAL',
+			   COUNT(IF(ISCHECKED=1,ISCHECKED,NULL)) AS 'ISCHECKED',
+			   C.CARD_SEQ
+			   FROM checklist C
+			   JOIN kanbancard K ON C.CARD_SEQ=K.CARD_SEQ
+			   WHERE K.PROJECT_SEQ=#{projectNum}
+			   GROUP BY C.CARD_SEQ
+	</select>
+	
+	<select id="getTotalCheckListByCardSeq" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM checklist WHERE CARD_SEQ = #{param1}
+	</select>
+	
+	<select id="getTotalCheckedCheckListByCardSeq" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM checklist WHERE CARD_SEQ = #{param1} AND ISCHECKED = 1
+	</select>
+	
+</mapper>
+	
+
+
+
+
+
+
+
+
+
+
