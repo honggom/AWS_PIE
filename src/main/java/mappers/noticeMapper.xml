@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.bit.dao.NoticeDao">
+ 
+<insert id="insertNotice" parameterType = "noticeDto" >
+INSERT INTO notice
+(title,content,project_seq,nickname,email,writedate,filename,file_seq)
+VALUES(#{title},#{content},#{project_seq},#{nickName},#{email},#{writeDate},#{filename},#{file_seq}) 
+</insert>
+
+<select id="getNoticeList" resultType="noticeDto" parameterType = "int">
+SELECT * FROM notice WHERE project_seq = #{param1} ORDER BY notice_SEQ DESC LIMIT 10 OFFSET #{param2}
+</select>
+
+<select id="getNoticeDetail" resultType="noticeDto" parameterType = "int">
+SELECT * FROM notice WHERE notice_seq = #{param1}
+</select>
+<select id="lastNotice_seq" resultType="int">
+SELECT max(notice_seq) as lastNotice_seq FROM notice 
+</select>
+<select id="getNoticeTotalNumber" resultType = "int">
+	SELECT count(*) FROM notice WHERE project_seq = #{param1}
+</select>
+
+<update  id="noticeUpdate" parameterType = "noticeDto">
+UPDATE notice
+SET title=#{title},content = #{content},filename=#{filename},file_seq=#{file_seq}
+WHERE notice_seq = #{notice_seq}
+</update>
+
+<delete id="noticeDelete">
+DELETE FROM notice
+WHERE notice_seq = #{param1} 
+</delete>
+
+<delete id="deleteNoticeByProjectSeq" parameterType = "int">
+	DELETE FROM notice WHERE project_seq = #{param1}
+</delete>
+
+<select id="getNoticeCommentsSeqByProjectSeq" resultType = "int" parameterType = "int" >
+	SELECT notice_seq FROM notice WHERE project_seq = #{param1}
+</select>
+
+</mapper>

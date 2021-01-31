@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.bit.dao.MensionDao">
+
+	<select id="getRoomListByRoomSeq" resultType="roomlistDto" parameterType="hashMap">
+		SELECT L.CHATTING_ROOM_NAME, U.profile, U.email
+		FROM chattingroomlist L JOIN user U
+		ON L.EMAIL = U.email
+		WHERE L.CHATTING_ROOM_SEQ = #{chatting_room_seq}
+		AND U.email = #{sender_email}
+	</select>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 파일명: cardMemberMapper.xml 
+	설명: cardMemberMapper.xml 
+	작성일: 2021-01-10 ~ 
+	작성자: 문지연 
+-->
+<mapper namespace="kr.or.bit.dao.CardMemberDao">
+	<select id="projectMemList" resultType="userDto"
+		parameterType="hashMap">
+		SELECT U.email, U.nickName, U.profile, P.PROJECT_SEQ
+		FROM user U 
+		RIGHT JOIN project_member P ON U.email=P.EMAIL
+		WHERE P.PROJECT_SEQ = #{projectNum}
+		AND U.email NOT IN 
+		(SELECT K.email FROM kanbanCard_Member K WHERE card_seq=#{cardSeq})
+		ORDER BY U.nickName, U.email
+	</select>
+	
+	<select id="getCardMemBySession" resultType="userDto"
+		parameterType="hashMap">
+		SELECT U.email, U.nickName, U.profile, K.CARD_SEQ
+		FROM user U 
+		RIGHT JOIN project_member P ON U.email=P.EMAIL
+        LEFT JOIN kanbanCard_Member K ON P.EMAIL=#{sessionEmail}
+		WHERE P.PROJECT_SEQ = #{projectNum}
+        AND K.card_seq IS NOT NULL
+        AND K.email=#{sessionEmail}
+	</select>
+
+	<insert id="insertCardMem" parameterType="HashMap">
+		INSERT INTO
+		kanbanCard_Member(email, card_seq)
+		VALUES(#{cardMember.email},
+		#{cardMember.card_seq})
+	</insert>
+
+
+	<select id="showMemberByCard" resultType="userDto"
+		parameterType="int">
+		SELECT U.email, U.nickName, U.profile
+		FROM user U JOIN kanbanCard_Member K
+		ON
+		U.email = K.email
+		WHERE K.card_seq = #{cardSeq}
+	</select>
+	
+	<delete id="deleteCardMem" parameterType="cardMemberDto">
+		DELETE FROM kanbanCard_Member WHERE card_seq=#{card_seq} AND email=#{email}
+	</delete>
+	
+	<delete id="deleteAllCardMem" parameterType="int">
+		DELETE FROM kanbanCard_Member WHERE card_seq=#{card_seq}
+	</delete>
+	
+	<select id="getCardSeqByMemberEmail" parameterType="String" resultType="int">
+		SELECT card_seq FROM kanbanCard_Member WHERE email = #{param1}
+	</select>
+	
+</mapper>
+
+
+	
+
+
+
+
+
+
+
+
+
+

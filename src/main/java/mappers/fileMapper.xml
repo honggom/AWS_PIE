@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.bit.dao.FileDao">
+ 
+<insert id="fileUploadToDB" parameterType="fileDto">
+	INSERT INTO file(file_seq, project_seq, file_original_name, file_uploaded_name, extension, upload_date, nickName) 
+			  VALUES(file_seq,#{project_seq},#{file_original_name},#{file_uploaded_name},#{extension},#{upload_date},#{nickName}) 
+</insert>
+
+<select id="getFile" resultType = "fileDto">
+	SELECT * FROM file WHERE project_seq = #{param1} ORDER BY file_seq DESC LIMIT 5 OFFSET #{param2}
+</select>
+
+<select id="getFileWithOGName" resultType = "fileDto">
+	SELECT * FROM file WHERE file_original_name LIKE CONCAT('%',#{param1},'%') ORDER BY file_seq DESC
+</select>
+
+<select id="getFileWithOGNameAndExtension" resultType = "fileDto">
+	SELECT * FROM file WHERE file_original_name LIKE CONCAT('%',#{param1},'%') AND extension = #{param2} ORDER BY file_seq DESC
+</select>
+
+<select id="getFileWithExtension" resultType = "fileDto">
+	SELECT * FROM file WHERE extension = #{param1} ORDER BY file_seq DESC
+</select>
+
+<select id="getFileTotalNumber" resultType = "int">
+	SELECT count(*) FROM file WHERE project_seq = #{param1}
+</select>
+
+<select id="isExistFile" resultType = "fileDto" parameterType="fileDto">
+	SELECT * FROM file WHERE project_seq = #{project_seq} AND file_uploaded_name = #{file_uploaded_name}
+</select>
+
+<select id="getDupleName" resultType = "String" parameterType="fileDto">
+	SELECT file_uploaded_name FROM file WHERE project_seq = #{project_seq} AND file_original_name = #{file_original_name} ORDER BY LENGTH(file_uploaded_name) DESC LIMIT 1;
+</select>
+
+<select id="fileLastSeq" resultType="int">
+	SELECT max(file_seq) as fileLast_seq FROM file
+</select>
+
+<select id="getFileSeqName" parameterType="int" resultType="String">
+	SELECT file_uploaded_name FROM file WHERE file_seq = #{param1}
+</select>
+
+<delete id = "deleteFileByProjectSeq" parameterType="int">
+	DELETE FROM file WHERE project_seq = #{param1}
+</delete>
+
+
+</mapper>
+
+
+
+

@@ -1,0 +1,247 @@
+#user 테이블
+CREATE TABLE user (
+    email varchar(200) NOT NULL,
+    nickName varchar(200) NOT NULL,
+	pwd varchar(200) NOT NULL,
+	profile varchar(200) DEFAULT NULL,
+    enabled int NOT NULL DEFAULT 1,
+    PRIMARY KEY (email)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#role 테이블
+CREATE TABLE role (
+	email varchar(200) NOT NULL,
+    ROLE_NAME varchar(200) NOT NULL,
+	FOREIGN KEY (email) REFERENCES user(email)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#role 권한 부여 트리거 
+DELIMITER $$
+CREATE TRIGGER insert_role_trigger
+AFTER INSERT ON user
+FOR EACH ROW
+BEGIN
+	IF NEW.email = 'admin' THEN
+    INSERT INTO role (email, ROLE_NAME) values (NEW.email, 'ROLE_ADMIN'),(NEW.email, 'ROLE_USER');
+    ELSE
+    INSERT INTO role values(NEW.email, 'ROLE_USER');
+    END IF;
+END $$
+DELIMITER ;
+
+#project 테이블 
+CREATE TABLE project(
+	PROJECT_SEQ int NOT NULL,
+	PROJECT_NAME varchar(45) NOT NULL,
+	LEADER_EMAIL varchar(45) NOT NULL,
+	FOREIGN KEY (LEADER_EMAIL) REFERENCES user(email),
+	PRIMARY KEY (PROJECT_SEQ)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#kanbanlist 테이블 
+CREATE TABLE kanbanlist(
+	LIST_SEQ int NOT NULL,
+	LIST_NAME varchar(45) NOT NULL,
+	LIST_ORDER_NUM int NOT NULL,
+	PROJECT_SEQ int NOT NULL,
+	PRIMARY KEY (LIST_SEQ),
+	FOREIGN KEY (PROJECT_SEQ) REFERENCES project(PROJECT_SEQ)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#kanbancard 테이블 
+CREATE TABLE kanbancard(
+	CARD_SEQ int NOT NULL,
+	CARD_NAME varchar(45) NOT NULL,
+	CARD_ORDER_NUM varchar(200) NOT NULL,
+	CARD_CONTENT varchar(200) DEFAULT NULL,
+	PROJECT_SEQ int NOT NULL,
+	PRIMARY KEY (CARD_SEQ),
+	FOREIGN KEY (PROJECT_SEQ) REFERENCES project(PROJECT_SEQ)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#checklist 테이블
+CREATE TABLE checklist(
+	CHECK_SEQ int NOT NULL,
+	CHECK_NAME varchar(50) NOT NULL,
+    ISCHECKED tinyint,
+	CARD_SEQ int NOT NULL,
+	FOREIGN KEY (CARD_SEQ) REFERENCES kanbancard(CARD_SEQ)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#1. 시퀀스 테이블 생성 (변경하는것 없이 그대로 실행)
+CREATE TABLE sequences(name varchar(32), currval BIGINT UNSIGNED)ENGINE=InnoDB;
+ 
+#2. 시퀀스 프로시저 생성(변경하는것 없이 그대로 실행)
+DELIMITER $$
+CREATE PROCEDURE `create_sequence`(IN the_name text)
+MODIFIES SQL DATA
+DETERMINISTIC
+BEGIN
+    DELETE FROM sequences WHERE name=the_name;
+    INSERT INTO sequences VALUES (the_name, 0);
+END $$
+DELIMITER;
+ 
+#3. nextval function 생성(변경하는것 없이 그대로 실행)
+ DELIMITER $$ 
+ CREATE FUNCTION `nextval`(the_name varchar(32))
+ RETURNS BIGINT UNSIGNED
+ MODIFIES SQL DATA
+ DETERMINISTIC
+ BEGIN
+     DECLARE ret BIGINT UNSIGNED;
+     UPDATE sequences SET currval=currval+1 WHERE name=the_name;
+     SELECT currval INTO ret FROM sequences WHERE name=the_name limit 1;
+     RETURN ret;
+ END $$
+ DELIMITER ;
+ 
+#4. 시퀀스명 입력 및 0값 넣기 (Statistics_seq 대신 원하는 시퀀스 명을 넣을 것)
+INSERT INTO sequences VALUES ('project_seq', 0);
+INSERT INTO sequences VALUES ('check_seq', 0);
+INSERT INTO sequences VALUES ('card_seq', 0);
+INSERT INTO sequences VALUES ('list_seq', 0);
+INSERT INTO sequences VALUES ('comments_seq', 0);
+ 
+#project_member 테이블
+CREATE TABLE project_member (
+	PROJECT_SEQ int NOT NULL,
+    EMAIL varchar(200) NOT NULL,
+    FOREIGN KEY (PROJECT_SEQ) REFERENCES project(PROJECT_SEQ),
+    FOREIGN KEY (EMAIL) REFERENCES user(email)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#project_member 부여 트리거 
+DELIMITER $$
+CREATE TRIGGER insert_project_member_trigger
+AFTER INSERT ON project
+FOR EACH ROW
+BEGIN    
+    INSERT INTO project_member (PROJECT_SEQ, EMAIL) VALUES (NEW.PROJECT_SEQ, NEW.LEADER_EMAIL);
+END $$
+DELIMITER ;
+
+#file 테이블
+CREATE TABLE file (
+	file_seq int NOT NULL AUTO_INCREMENT,
+    project_seq int NOT NULL,
+    file_original_name varchar(200) NOT NULL,
+    file_uploaded_name varchar(200) NOT NULL,
+    extension varchar(50) NOT NULL,
+    upload_date varchar(100) NOT NULL,
+    nickName varchar(200) NOT NULL,
+    FOREIGN KEY (PROJECT_SEQ) REFERENCES project(PROJECT_SEQ),
+    PRIMARY KEY (file_seq)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ 
+#calendar 테이블
+CREATE TABLE calendar(
+	start datetime NOT NULL, 
+	end datetime NOT NULL, 
+	content varchar(2000) , 
+	id int NOT NULL, 
+	allday tinyint NOT NULL, 
+	color varchar(45) NOT NULL, 
+	title varchar(1000) NOT NULL,
+	PROJECT_SEQ int NOT NULL,
+	FOREIGN KEY (PROJECT_SEQ) REFERENCES project(PROJECT_SEQ)
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    
+#calendar PK,AI
+ALTER TABLE `pie`.`calendar` 
+CHANGE COLUMN `id` `id` INT NOT NULL AUTO_INCREMENT ,
+ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `pie`.`calendar` 
+ADD COLUMN `card_seq` INT NULL AFTER `PROJECT_SEQ`;
+
+#alarm 테이블
+CREATE TABLE alarm(
+nickName varchar(100) NOT NULL, 
+title varchar(100) NOT NULL,
+state varchar(100) NOT NULL,
+alramTime datetime NOT NULL,
+alramseq int NOT NULL,
+memberemail varchar(100) NOT NULL,
+	PROJECT_SEQ int NOT NULL,
+	FOREIGN KEY (PROJECT_SEQ) REFERENCES project(PROJECT_SEQ)
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#alarm PK, AI 추가
+ALTER TABLE `pie`.`alarm` 
+CHANGE COLUMN `alramseq` `alramseq` INT NOT NULL AUTO_INCREMENT ,
+ADD PRIMARY KEY (`alramseq`);
+
+#alarm 컬럼 변경 및 드랍 프라이머리 키 
+ALTER TABLE `pie`.`alarm` 
+CHANGE COLUMN `alramseq` `alramseq` INT NOT NULL ,
+DROP PRIMARY KEY;
+    
+#chattingroom 테이블
+CREATE TABLE chattingroom (
+  CHATTING_ROOM_SEQ INT NOT NULL AUTO_INCREMENT,
+  CHATTING_ROOM_NAME VARCHAR(200) NOT NULL,
+  PROJECT_SEQ INT NOT NULL,
+PRIMARY KEY (CHATTING_ROOM_SEQ),
+FOREIGN KEY (PROJECT_SEQ) REFERENCES project(PROJECT_SEQ)
+)ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+#chattingroomlist 테이블
+CREATE TABLE chattingroomlist (
+  EMAIL VARCHAR(100) NOT NULL,
+  CHATTING_ROOM_SEQ INT NOT NULL,
+  ENABLED TINYINT NOT NULL DEFAULT 1,
+  CHATTING_ROOM_NAME VARCHAR(50) NOT NULL,
+  CHATTING_ALARM INT NOT NULL DEFAULT 0,
+  CLICKED INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (EMAIL) REFERENCES user(EMAIL),
+    FOREIGN KEY (CHATTING_ROOM_SEQ) REFERENCES chattingroom(CHATTING_ROOM_SEQ)
+)ENGINE = InnoDB DEFAULT CHARSET=utf8;    
+
+#KanbanCard_Member 테이블
+CREATE TABLE kanbanCard_Member (
+    email varchar(200) NOT NULL,
+    card_seq int not null,
+    FOREIGN KEY (email) REFERENCES user(email),
+    FOREIGN KEY (card_seq) REFERENCES kanbancard(card_seq)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#kanban_comments 테이블
+CREATE TABLE kanban_comments (
+  EMAIL VARCHAR(100) NOT NULL,
+    FOREIGN KEY (EMAIL) REFERENCES user(EMAIL),
+  CARD_SEQ INT NOT NULL,
+    FOREIGN KEY (CARD_SEQ) REFERENCES kanbancard(CARD_SEQ),
+  COMMENTS_SEQ INT NOT NULL,
+  COMMENTS VARCHAR(1000) NOT NULL,
+  REG_DATE DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  EDITED TINYINT NOT NULL DEFAULT '0'
+)ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+#notice 테이블
+CREATE TABLE `pie`.`notice` (
+  `notice_seq` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(500) NOT NULL,
+  `content` VARCHAR(4000) NOT NULL,
+  `project_seq` INT NOT NULL,
+  `nickName` VARCHAR(100) NOT NULL,
+  `email` VARCHAR(200) NOT NULL,
+  `writedate` DATETIME NOT NULL,
+  `filename` VARCHAR(200) NULL,
+  `file_seq` INT NULL,
+  FOREIGN KEY (project_seq) REFERENCES project(project_seq),
+  FOREIGN KEY (email) REFERENCES user(email),
+  PRIMARY KEY (`notice_seq`)
+)ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+#notice_comments 테이블
+CREATE TABLE notice_comments (
+  EMAIL VARCHAR(100) NOT NULL,
+  FOREIGN KEY (EMAIL) REFERENCES user(EMAIL),
+  NOTICE_SEQ INT NOT NULL,
+  FOREIGN KEY (NOTICE_SEQ) REFERENCES notice(notice_seq),
+  NOTICE_COMMENTS_SEQ INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  COMMENTS VARCHAR(1000) NOT NULL,
+  REG_DATE DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  EDITED TINYINT NOT NULL DEFAULT '0'
+)ENGINE = InnoDB DEFAULT CHARSET=utf8;

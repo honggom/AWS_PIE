@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.or.bit.dao.NoticeCommentsDao">
+
+	<insert id="insertComments" parameterType="noticeCommentsDto">
+		INSERT INTO notice_comments(EMAIL, NOTICE_SEQ, COMMENTS, REG_DATE,EDITED) 
+		VALUES(#{email}, #{notice_seq}, #{comments}, now(), DEFAULT)
+	</insert>
+	
+	<select id="loadComments" parameterType="int" resultType="noticeCommentsDto">
+		SELECT U.email, U.profile, U.nickName, K.COMMENTS, K.REG_DATE, K.NOTICE_COMMENTS_SEQ, K.EDITED
+		FROM notice_comments K
+		JOIN user U ON U.email=K.EMAIL
+		WHERE NOTICE_SEQ = #{param1}
+		ORDER BY K.NOTICE_COMMENTS_SEQ ASC;
+	</select>
+	
+	<delete id="deleteNoticeComments" parameterType="int">
+		DELETE FROM notice_comments
+		WHERE NOTICE_COMMENTS_SEQ = #{param1}
+	</delete>
+	
+	<update id="updateNoticeComments" parameterType="noticeCommentsDto">
+		UPDATE notice_comments 
+		SET COMMENTS=#{comments}, REG_DATE=now(), EDITED=1 WHERE NOTICE_COMMENTS_SEQ=#{notice_comments_seq}
+	</update>
+	
+	<delete id="deleteAllNoticeComments" parameterType="int">
+		DELETE FROM notice_comments WHERE NOTICE_SEQ=#{notice_seq}
+	</delete>
+	
+	<delete id="deleteNoticeCommentsByNoticeSeq" parameterType="int">
+		DELETE FROM notice_comments WHERE NOTICE_SEQ= #{param1}
+	</delete>
+	
+	
+</mapper>
+
+
+

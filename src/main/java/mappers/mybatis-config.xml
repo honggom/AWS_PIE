@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="kr.or.bit.dto.user" alias="userDto"/>
+		<typeAlias type="kr.or.bit.dto.card" alias="cardDto"/>
+		<typeAlias type="kr.or.bit.dto.list" alias="listDto"/>
+		<typeAlias type="kr.or.bit.dto.calendar" alias="calendarDto"/>
+		<typeAlias type="kr.or.bit.dto.project" alias="projectDto"/>
+		<typeAlias type="kr.or.bit.dto.room" alias="roomDto"/>
+		<typeAlias type="kr.or.bit.dto.roomlist" alias="roomlistDto"/>
+		<typeAlias type="kr.or.bit.dto.project_member" alias="project_memberDto"/>
+		<typeAlias type="kr.or.bit.dto.checkList" alias="checkListDto"/>
+		<typeAlias type="kr.or.bit.dto.alram" alias="alramDto"/>
+		<typeAlias type="kr.or.bit.dto.file" alias="fileDto"/>
+		<typeAlias type="kr.or.bit.dto.cardMember" alias="cardMemberDto"/>
+		<typeAlias type="kr.or.bit.dto.users" alias="usersDto"/>
+		<typeAlias type="kr.or.bit.dto.notice" alias="noticeDto"/>
+		<typeAlias type="kr.or.bit.dto.cardComments" alias="cardCommentsDto"/>
+		<typeAlias type="kr.or.bit.dto.noticeComments" alias="noticeCommentsDto"/>
+
+	</typeAliases>
+</configuration>
+
