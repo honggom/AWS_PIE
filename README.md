@@ -17,3 +17,18 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 
 # 개발 언어 및 API
 ![슬라이드2](https://user-images.githubusercontent.com/67107008/106383967-e4254e00-640b-11eb-883d-aa3f4beacf99.png)
+<br><br><br>
+
+# DB ERD
+![슬라이드5](https://user-images.githubusercontent.com/67107008/106474391-39cf2880-64e8-11eb-886f-2c3cdd70ed6d.png)
+<br><br><br>
+
+# 사용자 인증 절차
+![image](https://user-images.githubusercontent.com/67107008/106474601-6b47f400-64e8-11eb-8293-353cb003ae25.png)
+<br><br><br>
+
+# PL-SQL Trigger
+
+<br><br><br>
+
+
