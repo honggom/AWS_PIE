@@ -15,4 +15,5 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 - 가볍고 실질적으로 필요한 기능들만 있는 협업툴을 원하는 사람
 <br><br><br>
 
+# 개발 언어 및 API
 ![슬라이드2](https://user-images.githubusercontent.com/67107008/106383967-e4254e00-640b-11eb-883d-aa3f4beacf99.png)
