@@ -16,7 +16,7 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 <br><br><br>
 
 # 개발 언어 및 API
-![슬라이드2](https://user-images.githubusercontent.com/67107008/106383967-e4254e00-640b-11eb-883d-aa3f4beacf99.png)
+<img width="1164" alt="스크린샷 2021-02-02 오전 12 18 37" src="https://user-images.githubusercontent.com/67107008/106478147-45245300-64ec-11eb-95dc-051fd77b7495.png">
 <br><br><br>
 
 # DB ERD
