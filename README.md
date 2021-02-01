@@ -43,17 +43,27 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 ![스크린샷 2021-02-01 오후 11 57 48](https://user-images.githubusercontent.com/67107008/106475509-57e95880-64e9-11eb-8363-a80f9b2e1af9.png)
 <br><br><br>
 
-# 구현 기능들
+# 구현 기능 UI 및 상세 설명
 ![슬라이드9](https://user-images.githubusercontent.com/67107008/106480539-ddbbd280-64ee-11eb-8b6c-ea98958cb102.png)
+<br>
 ![슬라이드10](https://user-images.githubusercontent.com/67107008/106480545-df859600-64ee-11eb-95a7-2cdb0d079baf.png)
+<br>
 ![슬라이드11](https://user-images.githubusercontent.com/67107008/106480551-e01e2c80-64ee-11eb-8b70-986d9c982d69.png)
+<br>
 ![슬라이드12](https://user-images.githubusercontent.com/67107008/106480556-e0b6c300-64ee-11eb-9e13-d247bacfe401.png)
+<br>
 ![슬라이드13](https://user-images.githubusercontent.com/67107008/106480561-e14f5980-64ee-11eb-98dd-0bc75cb906f1.png)
+<br>
 ![슬라이드14](https://user-images.githubusercontent.com/67107008/106480563-e2808680-64ee-11eb-9f56-1eeac4771c3b.png)
+<br>
 ![슬라이드15](https://user-images.githubusercontent.com/67107008/106480568-e3191d00-64ee-11eb-8e24-2f07272dd022.png)
+<br>
 ![슬라이드16](https://user-images.githubusercontent.com/67107008/106480571-e3b1b380-64ee-11eb-9687-cbbb51196df6.png)
+<br>
 ![슬라이드17](https://user-images.githubusercontent.com/67107008/106480573-e3b1b380-64ee-11eb-9e4c-72ef361ce324.png)
+<br>
 ![슬라이드18](https://user-images.githubusercontent.com/67107008/106480577-e44a4a00-64ee-11eb-81de-6e15794de48d.png)
+<br>
 ![슬라이드19](https://user-images.githubusercontent.com/67107008/106480584-e4e2e080-64ee-11eb-8f8b-d69dfe7f3653.png)
 
 
