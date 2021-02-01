@@ -28,7 +28,12 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 <br><br><br>
 
 # PL-SQL Trigger
-![스크린샷 2021-02-01 오후 11 56 54](https://user-images.githubusercontent.com/67107008/106475347-2ff9f500-64e9-11eb-8d25-fafbbaea0de6.png)
+![스크린샷 2021-02-01 오후 11 57 48](https://user-images.githubusercontent.com/67107008/106475509-57e95880-64e9-11eb-8363-a80f9b2e1af9.png)
+<br><br><br>
+
+# WEB-SOCKET를 활용한 실시간 채팅 및 알림
+![image](https://user-images.githubusercontent.com/67107008/106475917-d514cd80-64e9-11eb-9269-c330278e0a2c.png)
+![image](https://user-images.githubusercontent.com/67107008/106475957-de9e3580-64e9-11eb-9129-7ad3f79283be.png)
 <br><br><br>
 
 
