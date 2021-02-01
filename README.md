@@ -20,11 +20,11 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 <br><br><br>
 
 # DB ERD
-![슬라이드5](https://user-images.githubusercontent.com/67107008/106474391-39cf2880-64e8-11eb-886f-2c3cdd70ed6d.png)
+![image](https://user-images.githubusercontent.com/67107008/106474811-a0544680-64e8-11eb-82ca-acbe700ee2e0.png)
 <br><br><br>
 
 # 사용자 인증 절차
-![image](https://user-images.githubusercontent.com/67107008/106474601-6b47f400-64e8-11eb-8293-353cb003ae25.png)
+![image](https://user-images.githubusercontent.com/67107008/106474969-c8dc4080-64e8-11eb-9d5d-a6b7470d95d6.png)
 <br><br><br>
 
 # PL-SQL Trigger
