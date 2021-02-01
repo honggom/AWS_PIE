@@ -32,8 +32,7 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 <br><br><br>
 
 # WEB-SOCKET를 활용한 실시간 채팅 및 알림
-![image](https://user-images.githubusercontent.com/67107008/106475917-d514cd80-64e9-11eb-9269-c330278e0a2c.png)
-![image](https://user-images.githubusercontent.com/67107008/106475957-de9e3580-64e9-11eb-9129-7ad3f79283be.png)
+![화면-기록-2021-02-02-오전-12 21 35](https://user-images.githubusercontent.com/67107008/106478847-fdea9200-64ec-11eb-9416-62d367e46995.gif)
 <br><br><br>
 
 
