@@ -24,11 +24,11 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 <br><br><br>
 
 # 사용자 인증 절차
-![image](https://user-images.githubusercontent.com/67107008/106474969-c8dc4080-64e8-11eb-9d5d-a6b7470d95d6.png)
+![image](https://user-images.githubusercontent.com/67107008/106475159-faeda280-64e8-11eb-8c44-ff9186e3fe35.png)
 <br><br><br>
 
 # PL-SQL Trigger
-
+![스크린샷 2021-02-01 오후 11 56 54](https://user-images.githubusercontent.com/67107008/106475347-2ff9f500-64e9-11eb-8d25-fafbbaea0de6.png)
 <br><br><br>
 
 
