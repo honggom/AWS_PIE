@@ -4,9 +4,9 @@
 
 ## 프로젝트는 프리티어인 t2.micro 인스턴스를 통해 배포를 하고 있어 서버가 다소 느릴 수 있습니다..
 	
-[파이 배포 주소](http://ec2-54-180-187-182.ap-northeast-2.compute.amazonaws.com:8080/Project_PIE/index.htm).
-[파이 발표 동영상](https://www.youtube.com/watch?v=sa6V4eMHsDE&ab_channel=%EB%B3%80%EC%9E%AC%ED%99%8D).
-[파이 시연 동영상](https://www.youtube.com/watch?v=ZEJ4SjyQjl0&ab_channel=%EB%B3%80%EC%9E%AC%ED%99%8D).
+- [파이 배포 주소](http://ec2-54-180-187-182.ap-northeast-2.compute.amazonaws.com:8080/Project_PIE/index.htm)<br>
+- [파이 발표 동영상](https://www.youtube.com/watch?v=sa6V4eMHsDE&ab_channel=%EB%B3%80%EC%9E%AC%ED%99%8D)<br>
+- [파이 시연 동영상](https://www.youtube.com/watch?v=ZEJ4SjyQjl0&ab_channel=%EB%B3%80%EC%9E%AC%ED%99%8D)<br>
 
 ![pie_logo_letter](https://user-images.githubusercontent.com/67107008/106469335-80218900-64e2-11eb-8d78-391fcdc5233c.png)
 
