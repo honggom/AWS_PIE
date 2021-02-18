@@ -1,13 +1,3 @@
-이 레파지토리는 최종 소스와 설명 레파지토리입니다.<br>
-실제로 개발이 이루어진 레파지토리는 [여기](https://github.com/Jacob4392/Project_PIE/tree/develop)를 참고해주시면 됩니다!
-
----
-# 현재 프로젝트는 AWS를 통해 배포 중입니다.
-- 파일 업로드와 다운로드는 S3를 통한 구현 중입니다.(빠른 시일 내에 완료하겠습니다!)
-- 현재 네이버 로그인은 API 검수 요청 중입니다.(빠른 시일 내에 완료하겠습니다!)
----
-	
-- [파이 배포 주소](http://ec2-54-180-187-182.ap-northeast-2.compute.amazonaws.com:8080/Project_PIE/index.htm)<br>
 - [파이 발표 동영상](https://www.youtube.com/watch?v=sa6V4eMHsDE&ab_channel=%EB%B3%80%EC%9E%AC%ED%99%8D)<br>
 - [파이 시연 동영상](https://www.youtube.com/watch?v=ZEJ4SjyQjl0&ab_channel=%EB%B3%80%EC%9E%AC%ED%99%8D)<br>
 
@@ -29,7 +19,7 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 <br><br><br>
 
 # 개발 언어 및 API
-<img width="1164" alt="스크린샷 2021-02-02 오전 12 18 37" src="https://user-images.githubusercontent.com/67107008/106478147-45245300-64ec-11eb-95dc-051fd77b7495.png">
+<img width="1164" alt="스크린샷 2021-02-02 오전 12 18 37" src="https://user-images.githubusercontent.com/67107008/106478147-45245300-64ec-11eb-95dc-051fd77b7495.png">
 <br><br><br>
 
 # DB ERD
@@ -37,11 +27,11 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 <br><br><br>
 
 # WEB-SOCKET을 활용한 실시간 채팅 및 알림
-![화면-기록-2021-02-02-오전-12 21 35](https://user-images.githubusercontent.com/67107008/106478847-fdea9200-64ec-11eb-9416-62d367e46995.gif)
+![화면-기록-2021-02-02-오전-12 21 35](https://user-images.githubusercontent.com/67107008/106478847-fdea9200-64ec-11eb-9416-62d367e46995.gif)
 <br><br><br>
 
 # FIREBASE Real Time Database 채팅 저장
-![화면-기록-2021-02-02-오전-12 29 13](https://user-images.githubusercontent.com/67107008/106480028-49517000-64ee-11eb-865c-5df5ec57f580.gif)
+![화면-기록-2021-02-02-오전-12 29 13](https://user-images.githubusercontent.com/67107008/106480028-49517000-64ee-11eb-865c-5df5ec57f580.gif)
 <br><br><br>
 
 # 사용자 인증 절차
@@ -49,35 +39,35 @@ PIE는 약 6주 동안 준비한 비트캠프 2조(팀명: PIE)의 Spring FrameW
 <br><br><br>
 
 # Spring Security 로그인 처리 
-![스크린샷 2021-02-02 오전 12 35 41](https://user-images.githubusercontent.com/67107008/106480377-aea56100-64ee-11eb-8a91-d213a018bd52.png)
+![스크린샷 2021-02-02 오전 12 35 41](https://user-images.githubusercontent.com/67107008/106480377-aea56100-64ee-11eb-8a91-d213a018bd52.png)
 <br><br><br>
 
 # PL-SQL Trigger
-![스크린샷 2021-02-01 오후 11 57 48](https://user-images.githubusercontent.com/67107008/106475509-57e95880-64e9-11eb-8363-a80f9b2e1af9.png)
+![스크린샷 2021-02-01 오후 11 57 48](https://user-images.githubusercontent.com/67107008/106475509-57e95880-64e9-11eb-8363-a80f9b2e1af9.png)
 <br><br><br>
 
 # 구현 기능 UI 및 상세 설명
-![슬라이드9](https://user-images.githubusercontent.com/67107008/106480539-ddbbd280-64ee-11eb-8b6c-ea98958cb102.png)
+![슬라이드9](https://user-images.githubusercontent.com/67107008/106480539-ddbbd280-64ee-11eb-8b6c-ea98958cb102.png)
 <br>
-![슬라이드10](https://user-images.githubusercontent.com/67107008/106480545-df859600-64ee-11eb-95a7-2cdb0d079baf.png)
+![슬라이드10](https://user-images.githubusercontent.com/67107008/106480545-df859600-64ee-11eb-95a7-2cdb0d079baf.png)
 <br>
-![슬라이드11](https://user-images.githubusercontent.com/67107008/106480551-e01e2c80-64ee-11eb-8b70-986d9c982d69.png)
+![슬라이드11](https://user-images.githubusercontent.com/67107008/106480551-e01e2c80-64ee-11eb-8b70-986d9c982d69.png)
 <br>
-![슬라이드12](https://user-images.githubusercontent.com/67107008/106480556-e0b6c300-64ee-11eb-9e13-d247bacfe401.png)
+![슬라이드12](https://user-images.githubusercontent.com/67107008/106480556-e0b6c300-64ee-11eb-9e13-d247bacfe401.png)
 <br>
-![슬라이드13](https://user-images.githubusercontent.com/67107008/106480561-e14f5980-64ee-11eb-98dd-0bc75cb906f1.png)
+![슬라이드13](https://user-images.githubusercontent.com/67107008/106480561-e14f5980-64ee-11eb-98dd-0bc75cb906f1.png)
 <br>
-![슬라이드14](https://user-images.githubusercontent.com/67107008/106480563-e2808680-64ee-11eb-9f56-1eeac4771c3b.png)
+![슬라이드14](https://user-images.githubusercontent.com/67107008/106480563-e2808680-64ee-11eb-9f56-1eeac4771c3b.png)
 <br>
-![슬라이드15](https://user-images.githubusercontent.com/67107008/106480568-e3191d00-64ee-11eb-8e24-2f07272dd022.png)
+![슬라이드15](https://user-images.githubusercontent.com/67107008/106480568-e3191d00-64ee-11eb-8e24-2f07272dd022.png)
 <br>
-![슬라이드16](https://user-images.githubusercontent.com/67107008/106480571-e3b1b380-64ee-11eb-9687-cbbb51196df6.png)
+![슬라이드16](https://user-images.githubusercontent.com/67107008/106480571-e3b1b380-64ee-11eb-9687-cbbb51196df6.png)
 <br>
-![슬라이드17](https://user-images.githubusercontent.com/67107008/106480573-e3b1b380-64ee-11eb-9e4c-72ef361ce324.png)
+![슬라이드17](https://user-images.githubusercontent.com/67107008/106480573-e3b1b380-64ee-11eb-9e4c-72ef361ce324.png)
 <br>
-![슬라이드18](https://user-images.githubusercontent.com/67107008/106480577-e44a4a00-64ee-11eb-81de-6e15794de48d.png)
+![슬라이드18](https://user-images.githubusercontent.com/67107008/106480577-e44a4a00-64ee-11eb-81de-6e15794de48d.png)
 <br>
-![슬라이드19](https://user-images.githubusercontent.com/67107008/106480584-e4e2e080-64ee-11eb-8f8b-d69dfe7f3653.png)
+![슬라이드19](https://user-images.githubusercontent.com/67107008/106480584-e4e2e080-64ee-11eb-8f8b-d69dfe7f3653.png)
 
 
 
